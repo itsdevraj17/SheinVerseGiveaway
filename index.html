@@ -5,369 +5,318 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shein Lottery Payment Gateway</title>
   <style>
-    /* =============== GLOBAL STYLES =============== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
     body {
-      background: linear-gradient(135deg, #f5f7fa, #e4edf9);
-      color: #333;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #f1f5f9;
       padding: 20px;
       max-width: 520px;
       margin: 0 auto;
       position: relative;
+      min-height: 100vh;
     }
 
-    /* =============== TOP BAR WITH DATE/TIME =============== */
-    .top-bar {
+    .blur-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      color: white;
+    }
+
+    .blur-overlay h2 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #ef4444;
+    }
+
+    .blur-overlay p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .support-btn-overlay {
+      background: #3b82f6;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      padding: 10px 15px;
-      background: #1976d2;
-      color: white;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: bold;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .main-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #60a5fa;
     }
 
     .date-time {
       font-family: monospace;
+      font-size: 14px;
+      color: #94a3b8;
     }
 
-    /* =============== MAIN HEADER - HORIZONTAL NAME =============== */
-    .header {
-      background: #1976d2;
-      color: white;
-      padding: 20px;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      position: relative;
-      text-align: center;
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+      padding: 16px;
+      background: rgba(30, 41, 59, 0.6);
+      border-radius: 14px;
+      border: 1px solid #334155;
     }
 
-    .logo {
-      width: 50px;
-      height: 50px;
-      background: white;
+    .avatar {
+      width: 48px;
+      height: 48px;
+      background: #3b82f6;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 26px;
       font-weight: bold;
-      color: #1976d2;
-      margin: 0 auto 12px;
+      font-size: 20px;
     }
 
-    .company-name {
-      font-size: 22px;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
+    .user-info {
+      flex: 1;
     }
 
-    .verified-section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
-      font-size: 14px;
-      font-weight: bold;
+    .user-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
     }
 
     .verified-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(0, 200, 83, 0.25);
-      color: #00c853;
-      padding: 5px 14px;
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      padding: 4px 12px;
       border-radius: 20px;
-      border: 1px solid rgba(0, 200, 83, 0.4);
+      font-size: 13px;
+      font-weight: 600;
     }
 
     .verified-badge::before {
       content: "✓";
-      font-size: 18px;
+      font-size: 16px;
     }
 
-    .timer-container {
-      margin-top: 12px;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
+    .timer {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 600;
       display: inline-block;
-    }
-
-    /* =============== AMOUNT SECTION =============== */
-    .amount-section {
-      padding: 24px;
-      background: white;
-      border: 1px solid #d0d9e6;
-      text-align: center;
-      margin-top: 10px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    }
-
-    .amount-title {
-      font-size: 18px;
-      margin-bottom: 16px;
-      color: #1976d2;
-      font-weight: 600;
-    }
-
-    .amount-input-container {
-      position: relative;
-      margin: 0 auto 16px;
-      max-width: 300px;
-    }
-
-    .amount-input {
-      width: 100%;
-      padding: 16px 16px 16px 50px;
-      font-size: 24px;
-      text-align: left;
-      border: 2px solid #1976d2;
-      border-radius: 12px;
-      margin: 0;
-      font-weight: bold;
-      outline: none;
-      background: #f9fbfd;
-    }
-
-    .rupee-symbol {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 22px;
-      color: #1976d2;
-      font-weight: bold;
-    }
-
-    .btn-done {
-      background: #1976d2;
-      color: white;
-      padding: 13px 24px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 17px;
-      transition: all 0.3s;
       margin-top: 8px;
-    }
-
-    .error-message {
-      color: #d32f2f;
-      font-size: 15px;
-      margin-top: 10px;
-      font-weight: bold;
-      display: none;
-    }
-
-    /* =============== PAYMENT OPTIONS =============== */
-    .payment-options {
-      padding: 24px;
-      background: white;
-      border: 1px solid #d0d9e6;
-      margin-top: 15px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    }
-
-    .section-title {
-      font-size: 18px;
-      margin-bottom: 18px;
-      color: #1976d2;
-      text-align: center;
-      font-weight: 600;
     }
 
     .qr-section {
       text-align: center;
-      margin: 24px 0;
+      margin: 30px 0;
     }
 
     .qr-title {
-      color: #1976d2;
-      margin-bottom: 14px;
-      font-size: 17px;
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #94a3b8;
+      font-weight: 500;
     }
 
     #qrImage {
-      width: 290px;
-      height: 290px;
-      object-fit: contain;
+      width: 300px;
+      height: 300px;
       background: white;
-      padding: 14px;
+      padding: 16px;
       border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      margin: 14px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
 
     .download-btn {
-      background: #1976d2;
+      background: #4f46e5;
       color: white;
-      padding: 13px 24px;
+      padding: 12px 24px;
       border: none;
       border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 17px;
-      transition: all 0.3s;
-      margin: 14px 0;
-    }
-
-    .apps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin: 24px 0;
-    }
-
-    .app-btn {
-      padding: 16px 10px;
-      background: white;
-      border: 1px solid #e0e6ef;
-      border-radius: 14px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.25s;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
-
-    .app-logo {
-      width: 52px;
-      height: 52px;
-      margin: 0 auto 12px;
-      display: block;
-    }
-
-    .app-name {
-      font-size: 14px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .upi-text-section {
-      background: #f0f7ff;
-      padding: 18px;
-      border-radius: 12px;
-      margin: 22px 0;
-      border: 1px dashed #1976d2;
-    }
-
-    .upi-instruction {
-      font-size: 16px;
-      color: #1976d2;
-      margin-bottom: 12px;
       font-weight: 600;
-    }
-
-    .upi-id-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: white;
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-family: monospace;
-      font-weight: bold;
-      color: #0d47a1;
-      border: 1px solid #bbdefb;
-    }
-
-    .copy-btn {
-      background: #1976d2;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 10px;
       cursor: pointer;
-      font-size: 13px;
-      font-weight: bold;
+      margin-top: 20px;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    .download-btn:hover {
+      background: #4338ca;
     }
 
     .instruction {
+      background: rgba(30, 41, 59, 0.7);
       padding: 20px;
-      background: #fffde7;
-      border: 1px solid #ffeb3b;
-      border-radius: 12px;
-      margin: 24px 0;
+      border-radius: 14px;
+      margin: 25px 0;
       font-size: 15px;
       line-height: 1.6;
-      text-align: center;
-      color: #5d4037;
+      color: #cbd5e1;
+      border: 1px solid #334155;
     }
 
-    .paid-btn {
-      background: #4caf50;
-      color: white;
-      padding: 13px 24px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
+    .upi-section {
+      margin: 25px 0;
+    }
+
+    .upi-title {
       font-size: 17px;
-      transition: all 0.3s;
-      margin: 14px 0;
+      margin-bottom: 15px;
+      color: #60a5fa;
+      font-weight: 600;
     }
 
-    .reward-box, .fail-box {
-      display: none;
-      padding: 22px;
+    .upi-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 12px 16px;
       border-radius: 12px;
-      margin: 22px 0;
-      text-align: center;
-      font-size: 19px;
-      font-weight: bold;
+      margin-bottom: 12px;
+      border: 1px solid #334155;
     }
 
-    .reward-box {
-      background: #d1fae5;
-      border: 1px solid #059669;
-      color: #059669;
+    .upi-id {
+      flex: 1;
+      font-family: monospace;
+      font-size: 15px;
+      color: #f1f5f9;
     }
 
-    .fail-box {
-      background: #fee2e2;
-      border: 1px solid #dc2626;
-      color: #dc2626;
-    }
-
-    .support-btn, .back-btn, .history-btn {
-      background: #4caf50;
+    .copy-btn {
+      background: #3b82f6;
       color: white;
-      padding: 13px 24px;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .disclaimer {
+      background: rgba(251, 146, 60, 0.15);
+      padding: 18px;
+      border-radius: 12px;
+      margin: 25px 0;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #fde68a;
+      border: 1px solid #78350f;
+    }
+
+    .disclaimer strong {
+      color: #fcd34d;
+    }
+
+    .action-buttons {
+      display: grid;
+      gap: 14px;
+      margin: 25px 0;
+    }
+
+    .btn {
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 17px;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .done-btn {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+    }
+
+    .support-btn {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+    }
+
+    .back-btn {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+      color: white;
+    }
+
+    .admin-panel {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .admin-btn {
+      background: #dc2626;
+      color: white;
+      padding: 12px;
       border: none;
       border-radius: 10px;
-      cursor: pointer;
       font-weight: bold;
-      font-size: 17px;
-      transition: all 0.3s;
-      margin: 14px 0;
+      cursor: pointer;
+      font-size: 16px;
       width: 100%;
+      margin-top: 10px;
     }
 
-    .back-btn { background: #9c27b0; }
-    .back-btn:hover { background: #7b1fa2; }
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      color: #94a3b8;
+      font-size: 13px;
+      border-top: 1px solid #334155;
+      margin-top: 20px;
+    }
 
-    .history-btn { background: #2196f3; }
-    .history-btn:hover { background: #1976d2; }
+    .footer strong {
+      color: #60a5fa;
+    }
 
-    /* =============== MODAL =============== */
+    /* Modal */
     .modal {
       display: none;
       position: fixed;
@@ -376,248 +325,181 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.8);
     }
 
     .modal-content {
-      background-color: white;
-      margin: 5% auto;
+      background: #0f172a;
+      margin: 10% auto;
       padding: 25px;
-      border-radius: 14px;
       width: 90%;
-      max-width: 480px;
-      max-height: 80vh;
-      overflow-y: auto;
+      max-width: 400px;
+      border-radius: 16px;
+      border: 1px solid #334155;
     }
 
     .close {
-      color: #aaa;
+      color: #94a3b8;
       float: right;
       font-size: 28px;
-      font-weight: bold;
       cursor: pointer;
     }
 
-    .unauthorized {
-      color: #d32f2f;
-      font-size: 20px;
-      font-weight: bold;
-      text-align: center;
-      padding: 30px 0;
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: white;
+      font-size: 16px;
     }
 
     .history-item {
       padding: 12px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #334155;
+      margin: 10px 0;
     }
 
-    .history-amount {
-      font-weight: bold;
-      color: #1976d2;
-    }
-
-    .footer {
-      padding: 20px;
-      background: #f5f5f5;
+    .unauthorized {
+      color: #ef4444;
       text-align: center;
-      font-size: 13px;
-      color: #555;
-      border-top: 1px solid #ddd;
-      margin-top: 20px;
-      border-radius: 12px;
-    }
-
-    .footer strong {
-      color: #1976d2;
+      padding: 20px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div>Shein Lottery Payment</div>
+  <!-- Header -->
+  <div class="header">
+    <div class="main-title">PAYMENT REQUEST FROM SHEIN LOTTERY TICKET</div>
     <div class="date-time" id="dateTime"></div>
   </div>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="logo">P</div>
-    <div class="company-name">PRIYANKA GUPTA</div>
-    <div class="verified-section">
+  <!-- User Info -->
+  <div class="user-section">
+    <div class="avatar">P</div>
+    <div class="user-info">
+      <div class="user-name">PRIYANKA GUPTA</div>
       <div class="verified-badge">Verified User</div>
-    </div>
-    <div class="timer-container">
-      <span id="countdown">⏳ 10:00</span>
+      <div class="timer" id="countdown">⏳ 10:00</div>
     </div>
   </div>
 
-  <!-- Amount Section -->
-  <div class="amount-section">
-    <div class="amount-title">Payment Request From SHEIN LOTTERY TICKET</div>
-    <div class="amount-input-container">
-      <span class="rupee-symbol">₹</span>
-      <input 
-        type="number" 
-        class="amount-input" 
-        id="amountInput" 
-        placeholder="0"
-        min="1" 
-        max="5000" 
-        step="1"
-      >
-    </div>
-    <button class="btn-done" onclick="setAmount()">Confirm Amount</button>
-    <div class="error-message" id="errorMessage"></div>
-    <div class="amount-display" id="amountDisplay">You Have To Pay ₹<span id="displayAmount">0</span></div>
+  <!-- QR Section -->
+  <div class="qr-section">
+    <div class="qr-title">PAYMENT QR</div>
+    <img src="qr.jpg" id="qrImage" alt="Payment QR">
+    <button class="download-btn" onclick="downloadQR()">💾 Download QR Image</button>
   </div>
 
-  <!-- Payment Options -->
-  <div class="payment-options">
-    <div class="section-title">Pay By Given Below Options</div>
-
-    <div class="qr-section">
-      <div class="qr-title">Scan QR And Pay</div>
-      <img src="qr.jpg" id="qrImage" alt="Payment QR">
-      <button class="download-btn" onclick="downloadQR()">💾 Save QR for Offline Use</button>
-    </div>
-
-    <!-- Apps with logos + iPhone emoji -->
-    <div class="apps-grid">
-      <div class="app-btn">
-        <img src="phonepe.png" class="app-logo" alt="PhonePe">
-        <div class="app-name">📱 PhonePe</div>
-      </div>
-      <div class="app-btn">
-        <img src="googlepay.png" class="app-logo" alt="Google Pay">
-        <div class="app-name">📱 Google Pay</div>
-      </div>
-      <div class="app-btn">
-        <img src="paytm.png" class="app-logo" alt="Paytm">
-        <div class="app-name">📱 Paytm</div>
-      </div>
-    </div>
-
-    <!-- UPI TEXT -->
-    <div class="upi-text-section">
-      <div class="upi-instruction">If above failed, try this UPI ID:</div>
-      <div class="upi-id-container">
-        <span id="upiText">techydev1720@ybl</span>
-        <button class="copy-btn" onclick="copyUPI()">Copy</button>
-      </div>
-    </div>
-
-    <!-- UPDATED INSTRUCTION -->
-    <div class="instruction">
-      After successful payment, click on <strong>DONE PAYMENT</strong> and then click on <strong>"I Have Paid"</strong> box in Telegram to get your tickets.
-    </div>
-
-    <!-- DONE PAYMENT BUTTON -->
-    <button class="paid-btn" onclick="donePayment()">✅ DONE PAYMENT</button>
-
-    <!-- HISTORY BUTTON -->
-    <button class="history-btn" onclick="showHistory()">📜 View Payment History</button>
-
-    <div class="reward-box" id="rewardBox">
-      🎉 Payment Recorded!<br>Your ticket will be issued shortly.
-    </div>
-    <div class="fail-box" id="failBox">
-      ❌ PAYMENT NOT FOUND<br>If you paid, please contact support with screenshot.
-    </div>
-
-    <button class="support-btn" onclick="openSupport()">💬 CONTACT SUPPORT</button>
-    <button class="back-btn" onclick="goBackToBot()">🔙 GO BACK TO BOT</button>
+  <!-- Instruction -->
+  <div class="instruction">
+    You can scan the QR and pay the given amount to get your tickets. If above QR fails, try these:
   </div>
 
-  <!-- Admin Password Modal -->
-  <div id="authModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeAuth()">&times;</span>
-      <h3 style="color:#1976d2;">🔒 Admin Access Required</h3>
-      <input type="password" id="adminPass" placeholder="Enter Password" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;">
-      <button onclick="verifyAdmin()" style="width:100%; padding:10px; background:#1976d2; color:white; border:none; border-radius:5px;">Submit</button>
+  <!-- UPI IDs -->
+  <div class="upi-section">
+    <div class="upi-title">UPI IDs</div>
+    <div class="upi-item">
+      <div class="upi-id">techydev1720@ybl</div>
+      <button class="copy-btn" onclick="copyText('techydev1720@ybl')">Copy</button>
+    </div>
+    <div class="upi-item">
+      <div class="upi-id">techydev1720@axl</div>
+      <button class="copy-btn" onclick="copyText('techydev1720@axl')">Copy</button>
+    </div>
+    <div class="upi-item">
+      <div class="upi-id">techydev1720@ibl</div>
+      <button class="copy-btn" onclick="copyText('techydev1720@ibl')">Copy</button>
     </div>
   </div>
 
-  <!-- History Modal -->
-  <div id="historyModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeHistory()">&times;</span>
-      <div id="historyContent"></div>
-    </div>
+  <!-- Disclaimer -->
+  <div class="disclaimer">
+    [DISCLAIMER] After doing payment, click on <strong>DONE PAYMENT</strong> and then click on <strong>"I Have Paid"</strong> box in Telegram to get your tickets.
   </div>
 
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button class="btn done-btn" onclick="donePayment()">✅ DONE PAYMENT</button>
+    <button class="btn support-btn" onclick="openSupport()">💬 SUPPORT</button>
+    <button class="btn back-btn" onclick="goBackToBot()">🔙 BACK TO BOT</button>
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin-panel">
+    <button class="admin-btn" onclick="showAdminPanel()">🔐 ADMIN PANEL</button>
+  </div>
+
+  <!-- Footer -->
   <div class="footer">
-    © 2026 Shein Lottery Ticket System<br>
-    <strong>Secure • Verified • Trusted • Safe</strong>
+    © 2026 Shein Lottery Ticket Gateway<br>
+    <strong>Secure • Trusted • Safe • Verified</strong>
+  </div>
+
+  <!-- Expired Overlay -->
+  <div class="blur-overlay" id="expiredOverlay">
+    <h2>⏰ PAYMENT EXPIRED</h2>
+    <p>If any payment is done and you have a query, click on support.</p>
+    <button class="support-btn-overlay" onclick="openSupport()">💬 CONTACT SUPPORT</button>
+  </div>
+
+  <!-- Admin Modal -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeAdmin()">&times;</span>
+      <h3 style="color:#60a5fa; margin-bottom:15px;">Enter Secret Code</h3>
+      <input type="password" id="secretCode" placeholder="Secret Code">
+      <button class="btn support-btn" onclick="verifyAdmin()" style="width:100%;">Submit</button>
+      <div id="adminContent" style="margin-top:20px;"></div>
+    </div>
   </div>
 
   <script>
-    // ==================== DATE & TIME ====================
+    // Date & Time (12-hour with seconds)
     function updateDateTime() {
       const now = new Date();
-      let hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12 || 12;
-      document.getElementById('dateTime').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+      let h = now.getHours();
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      document.getElementById('dateTime').textContent = `${h}:${m}:${s} ${ampm}`;
     }
     setInterval(updateDateTime, 1000);
     updateDateTime();
 
-    // ==================== AMOUNT VALIDATION ====================
-    let currentAmount = null;
+    // Timer
+    let timeLeft = 600;
+    const countdownEl = document.getElementById('countdown');
+    const expiredOverlay = document.getElementById('expiredOverlay');
 
-    function setAmount() {
-      const amount = parseFloat(document.getElementById('amountInput').value);
-      const errorEl = document.getElementById('errorMessage');
-      errorEl.style.display = 'none';
-
-      if (!amount || isNaN(amount) || amount < 1 || amount > 5000) {
-        errorEl.textContent = "INVALID AMOUNT, TRY AGAIN";
-        errorEl.style.display = 'block';
-        currentAmount = null;
-        document.getElementById('amountDisplay').style.display = 'none';
+    const timer = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        expiredOverlay.style.display = 'flex';
         return;
       }
+      const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+      const secs = (timeLeft % 60).toString().padStart(2, '0');
+      countdownEl.textContent = `⏳ ${mins}:${secs}`;
+      timeLeft--;
+    }, 1000);
 
-      currentAmount = amount;
-      document.getElementById('displayAmount').textContent = amount;
-      document.getElementById('amountDisplay').style.display = 'block';
-    }
-
-    // ==================== DONE PAYMENT → SAVE + REDIRECT ====================
-    function donePayment() {
-      if (!currentAmount) {
-        alert("Please enter and confirm a valid amount first!");
-        return;
-      }
-
-      const payment = {
-        amount: currentAmount,
-        upi: "techydev1720@ybl",
-        timestamp: new Date().toISOString()
-      };
-
-      let history = JSON.parse(localStorage.getItem('shein_payment_history') || '[]');
-      history.push(payment);
-      localStorage.setItem('shein_payment_history', JSON.stringify(history));
-
-      window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
-    }
-
-    // ==================== COPY UPI ====================
-    function copyUPI() {
-      navigator.clipboard.writeText("techydev1720@ybl").then(() => {
+    // Copy UPI
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
         const btn = event.target;
         const orig = btn.textContent;
         btn.textContent = "Copied!";
         setTimeout(() => btn.textContent = orig, 2000);
-      }).catch(() => alert("Failed to copy"));
+      });
     }
 
-    // ==================== DOWNLOAD QR ====================
+    // Download QR
     function downloadQR() {
       const a = document.createElement('a');
       a.href = 'qr.jpg';
@@ -625,7 +507,22 @@
       a.click();
     }
 
-    // ==================== TELEGRAM LINKS ====================
+    // Done Payment → Save + Redirect
+    function donePayment() {
+      const payment = {
+        amount: "manual_entry",
+        upi: "techydev1720@ybl",
+        timestamp: new Date().toISOString()
+      };
+
+      let history = JSON.parse(localStorage.getItem('shein_admin_payments') || '[]');
+      history.push(payment);
+      localStorage.setItem('shein_admin_payments', JSON.stringify(history));
+
+      window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
+    }
+
+    // Telegram Links
     function openSupport() {
       window.open('https://t.me/contact_admin17_bot', '_blank');
     }
@@ -634,70 +531,43 @@
       window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
     }
 
-    // ==================== ADMIN HISTORY (PASSWORD = MUSKAN@17) ====================
-    const ADMIN_PASSWORD = "MUSKAN@17"; // 🔒 Hidden from UI
-
-    function showHistory() {
-      document.getElementById('authModal').style.display = 'block';
+    // Admin Panel
+    function showAdminPanel() {
+      document.getElementById('adminModal').style.display = 'block';
     }
 
-    function closeAuth() {
-      document.getElementById('authModal').style.display = 'none';
+    function closeAdmin() {
+      document.getElementById('adminModal').style.display = 'none';
     }
 
     function verifyAdmin() {
-      const pass = document.getElementById('adminPass').value;
-      const content = document.getElementById('historyContent');
+      const code = document.getElementById('secretCode').value;
+      const content = document.getElementById('adminContent');
 
-      if (pass === ADMIN_PASSWORD) {
-        const hist = JSON.parse(localStorage.getItem('shein_payment_history') || '[]');
+      if (code === "DHEERAJ@1212") {
+        const hist = JSON.parse(localStorage.getItem('shein_admin_payments') || '[]');
         if (hist.length === 0) {
-          content.innerHTML = '<h3 style="color:#1976d2;">Payment History</h3><p>No payments recorded.</p>';
+          content.innerHTML = '<p style="color:#94a3b8;">No payments recorded.</p>';
         } else {
-          let html = '<h3 style="color:#1976d2;">Payment History</h3>';
-          hist.forEach(item => {
+          let html = '<h4 style="color:#60a5fa; margin-bottom:15px;">Payment History</h4>';
+          hist.forEach((item, i) => {
             const date = new Date(item.timestamp).toLocaleString('en-IN', {
               day: '2-digit', month: 'short', year: 'numeric',
               hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
             });
-            html += `<div class="history-item">₹<span class="history-amount">${item.amount}</span><br><small>${date}</small></div>`;
+            html += `<div class="history-item">✅ PAYMENT DONE [${date}]</div>`;
           });
           content.innerHTML = html;
         }
-        document.getElementById('authModal').style.display = 'none';
-        document.getElementById('historyModal').style.display = 'block';
       } else {
-        content.innerHTML = '<div class="unauthorized">❌ UNAUTHORIZED USER</div>';
-        setTimeout(() => {
-          document.getElementById('historyModal').style.display = 'none';
-        }, 2000);
+        content.innerHTML = '<div class="unauthorized">❌ INVALID SECRET CODE</div>';
+        setTimeout(() => content.innerHTML = '', 2000);
       }
-    }
-
-    function closeHistory() {
-      document.getElementById('historyModal').style.display = 'none';
     }
 
     window.onclick = (e) => {
-      if (e.target === document.getElementById('authModal')) closeAuth();
-      if (e.target === document.getElementById('historyModal')) closeHistory();
+      if (e.target === document.getElementById('adminModal')) closeAdmin();
     };
-
-    // ==================== TIMER ====================
-    let timeLeft = 600;
-    const countdownEl = document.getElementById('countdown');
-    const timer = setInterval(() => {
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        countdownEl.textContent = "EXPIRED";
-        countdownEl.style.background = "rgba(220, 38, 38, 0.3)";
-        return;
-      }
-      const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-      const secs = (timeLeft % 60).toString().padStart(2, '0');
-      countdownEl.textContent = `⏳ ${mins}:${secs}`;
-      timeLeft--;
-    }, 1000);
   </script>
 
 </body>
