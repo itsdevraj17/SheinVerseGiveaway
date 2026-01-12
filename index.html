@@ -70,7 +70,6 @@
       font-weight: bold;
       letter-spacing: 0.5px;
       margin-bottom: 8px;
-      /* Removed vertical writing */
     }
 
     .verified-section {
@@ -314,7 +313,7 @@
     }
 
     .paid-btn {
-      background: #ff9800;
+      background: #4caf50;
       color: white;
       padding: 13px 24px;
       border: none;
@@ -444,7 +443,7 @@
   <!-- Header -->
   <div class="header">
     <div class="logo">P</div>
-    <div class="company-name">PRIYANKA GUPTA</div> <!-- FIXED: Now horizontal -->
+    <div class="company-name">PRIYANKA GUPTA</div>
     <div class="verified-section">
       <div class="verified-badge">Verified User</div>
     </div>
@@ -483,21 +482,23 @@
       <button class="download-btn" onclick="downloadQR()">💾 Save QR for Offline Use</button>
     </div>
 
+    <!-- Apps with logos + iPhone emoji -->
     <div class="apps-grid">
-      <div class="app-btn" onclick="openApp('phonepe')">
+      <div class="app-btn">
         <img src="phonepe.png" class="app-logo" alt="PhonePe">
-        <div class="app-name">PhonePe</div>
+        <div class="app-name">📱 PhonePe</div>
       </div>
-      <div class="app-btn" onclick="openApp('gpay')">
+      <div class="app-btn">
         <img src="googlepay.png" class="app-logo" alt="Google Pay">
-        <div class="app-name">Google Pay</div>
+        <div class="app-name">📱 Google Pay</div>
       </div>
-      <div class="app-btn" onclick="openApp('paytm')">
+      <div class="app-btn">
         <img src="paytm.png" class="app-logo" alt="Paytm">
-        <div class="app-name">Paytm</div>
+        <div class="app-name">📱 Paytm</div>
       </div>
     </div>
 
+    <!-- UPI TEXT -->
     <div class="upi-text-section">
       <div class="upi-instruction">If above failed, try this UPI ID:</div>
       <div class="upi-id-container">
@@ -506,13 +507,13 @@
       </div>
     </div>
 
+    <!-- UPDATED INSTRUCTION -->
     <div class="instruction">
-      READ CAREFULLY: AFTER SUCCESSFUL PAYMENT GO BACK TO YOUR BOT AND CLICK<br>
-      <strong>"I HAVE PAID"</strong><br>
-      AND SEND PAYMENT SCREENSHOT TO GET YOUR TICKETS
+      After successful payment, click on <strong>DONE PAYMENT</strong> and then click on <strong>"I Have Paid"</strong> box in Telegram to get your tickets.
     </div>
 
-    <button class="paid-btn" onclick="markAsPaid()">✅ I HAVE PAID</button>
+    <!-- DONE PAYMENT BUTTON -->
+    <button class="paid-btn" onclick="donePayment()">✅ DONE PAYMENT</button>
 
     <!-- HISTORY BUTTON -->
     <button class="history-btn" onclick="showHistory()">📜 View Payment History</button>
@@ -528,13 +529,21 @@
     <button class="back-btn" onclick="goBackToBot()">🔙 GO BACK TO BOT</button>
   </div>
 
+  <!-- Admin Password Modal -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeAuth()">&times;</span>
+      <h3 style="color:#1976d2;">🔒 Admin Access Required</h3>
+      <input type="password" id="adminPass" placeholder="Enter Password" style="width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;">
+      <button onclick="verifyAdmin()" style="width:100%; padding:10px; background:#1976d2; color:white; border:none; border-radius:5px;">Submit</button>
+    </div>
+  </div>
+
   <!-- History Modal -->
   <div id="historyModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeHistory()">&times;</span>
-      <div id="historyContent">
-        <!-- Will be filled by JS -->
-      </div>
+      <div id="historyContent"></div>
     </div>
   </div>
 
@@ -544,10 +553,6 @@
   </div>
 
   <script>
-    // ==================== CONFIG ====================
-    // 🔑 Set to true ONLY if you are admin (edit this before deploying)
-    const IS_ADMIN = false; // ← CHANGE THIS TO true IF YOU ARE ADMIN
-
     // ==================== DATE & TIME ====================
     function updateDateTime() {
       const now = new Date();
@@ -580,28 +585,39 @@
       currentAmount = amount;
       document.getElementById('displayAmount').textContent = amount;
       document.getElementById('amountDisplay').style.display = 'block';
-
-      const encoded = encodeURIComponent(amount);
-      window.phonepeLink = `upi://pay?pa=techydev1720%40ybl&pn=Shein%20Lottery&am=${encoded}&cu=INR`;
-      window.gpayLink = window.phonepeLink;
-      window.paytmLink = window.phonepeLink;
     }
 
-    // ==================== PAYMENT FUNCTIONS ====================
-    function openApp(app) {
-      if (!currentAmount) return alert("Please enter amount first!");
-      window.location.href = window[`${app}Link`];
+    // ==================== DONE PAYMENT → SAVE + REDIRECT ====================
+    function donePayment() {
+      if (!currentAmount) {
+        alert("Please enter and confirm a valid amount first!");
+        return;
+      }
+
+      const payment = {
+        amount: currentAmount,
+        upi: "techydev1720@ybl",
+        timestamp: new Date().toISOString()
+      };
+
+      let history = JSON.parse(localStorage.getItem('shein_payment_history') || '[]');
+      history.push(payment);
+      localStorage.setItem('shein_payment_history', JSON.stringify(history));
+
+      window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
     }
 
+    // ==================== COPY UPI ====================
     function copyUPI() {
       navigator.clipboard.writeText("techydev1720@ybl").then(() => {
         const btn = event.target;
         const orig = btn.textContent;
         btn.textContent = "Copied!";
         setTimeout(() => btn.textContent = orig, 2000);
-      });
+      }).catch(() => alert("Failed to copy"));
     }
 
+    // ==================== DOWNLOAD QR ====================
     function downloadQR() {
       const a = document.createElement('a');
       a.href = 'qr.jpg';
@@ -609,60 +625,7 @@
       a.click();
     }
 
-    function markAsPaid() {
-      if (!currentAmount) return alert("Please enter amount first!");
-      
-      const payment = {
-        amount: currentAmount,
-        upi: "techydev1720@ybl",
-        timestamp: new Date().toISOString()
-      };
-
-      let hist = JSON.parse(localStorage.getItem('shein_payment_history') || '[]');
-      hist.push(payment);
-      localStorage.setItem('shein_payment_history', JSON.stringify(hist));
-
-      document.getElementById('rewardBox').style.display = 'block';
-      document.getElementById('failBox').style.display = 'none';
-    }
-
-    // ==================== ADMIN-ONLY HISTORY ====================
-    function showHistory() {
-      const content = document.getElementById('historyContent');
-
-      if (!IS_ADMIN) {
-        content.innerHTML = `<div class="unauthorized">❌ UNAUTHORIZED USER</div>`;
-        document.getElementById('historyModal').style.display = 'block';
-        return;
-      }
-
-      const hist = JSON.parse(localStorage.getItem('shein_payment_history') || '[]');
-      if (hist.length === 0) {
-        content.innerHTML = '<h3 style="color:#1976d2;">Payment History</h3><p>No payments recorded.</p>';
-      } else {
-        let html = '<h3 style="color:#1976d2;">Payment History</h3>';
-        hist.forEach(item => {
-          const date = new Date(item.timestamp).toLocaleString('en-IN', {
-            day: '2-digit', month: 'short', year: 'numeric',
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
-          });
-          html += `<div class="history-item">₹<span class="history-amount">${item.amount}</span><br><small>${date}</small></div>`;
-        });
-        content.innerHTML = html;
-      }
-
-      document.getElementById('historyModal').style.display = 'block';
-    }
-
-    function closeHistory() {
-      document.getElementById('historyModal').style.display = 'none';
-    }
-
-    window.onclick = (e) => {
-      if (e.target === document.getElementById('historyModal')) closeHistory();
-    };
-
-    // ==================== TELEGRAM ====================
+    // ==================== TELEGRAM LINKS ====================
     function openSupport() {
       window.open('https://t.me/contact_admin17_bot', '_blank');
     }
@@ -670,6 +633,55 @@
     function goBackToBot() {
       window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
     }
+
+    // ==================== ADMIN HISTORY (PASSWORD = MUSKAN@17) ====================
+    const ADMIN_PASSWORD = "MUSKAN@17"; // 🔒 Hidden from UI
+
+    function showHistory() {
+      document.getElementById('authModal').style.display = 'block';
+    }
+
+    function closeAuth() {
+      document.getElementById('authModal').style.display = 'none';
+    }
+
+    function verifyAdmin() {
+      const pass = document.getElementById('adminPass').value;
+      const content = document.getElementById('historyContent');
+
+      if (pass === ADMIN_PASSWORD) {
+        const hist = JSON.parse(localStorage.getItem('shein_payment_history') || '[]');
+        if (hist.length === 0) {
+          content.innerHTML = '<h3 style="color:#1976d2;">Payment History</h3><p>No payments recorded.</p>';
+        } else {
+          let html = '<h3 style="color:#1976d2;">Payment History</h3>';
+          hist.forEach(item => {
+            const date = new Date(item.timestamp).toLocaleString('en-IN', {
+              day: '2-digit', month: 'short', year: 'numeric',
+              hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+            });
+            html += `<div class="history-item">₹<span class="history-amount">${item.amount}</span><br><small>${date}</small></div>`;
+          });
+          content.innerHTML = html;
+        }
+        document.getElementById('authModal').style.display = 'none';
+        document.getElementById('historyModal').style.display = 'block';
+      } else {
+        content.innerHTML = '<div class="unauthorized">❌ UNAUTHORIZED USER</div>';
+        setTimeout(() => {
+          document.getElementById('historyModal').style.display = 'none';
+        }, 2000);
+      }
+    }
+
+    function closeHistory() {
+      document.getElementById('historyModal').style.display = 'none';
+    }
+
+    window.onclick = (e) => {
+      if (e.target === document.getElementById('authModal')) closeAuth();
+      if (e.target === document.getElementById('historyModal')) closeHistory();
+    };
 
     // ==================== TIMER ====================
     let timeLeft = 600;
@@ -689,4 +701,4 @@
   </script>
 
 </body>
-      </html>
+</html>
