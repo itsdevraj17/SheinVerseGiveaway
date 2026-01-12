@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shein Lottery Payment Gateway</title>
+  <title>Shein Lottery Payment</title>
   <style>
     * {
       margin: 0;
@@ -18,7 +18,6 @@
       padding: 20px;
       max-width: 520px;
       margin: 0 auto;
-      position: relative;
       min-height: 100vh;
     }
 
@@ -40,29 +39,6 @@
       color: white;
     }
 
-    .blur-overlay h2 {
-      font-size: 28px;
-      margin-bottom: 15px;
-      color: #ef4444;
-    }
-
-    .blur-overlay p {
-      font-size: 16px;
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
-
-    .support-btn-overlay {
-      background: #3b82f6;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
     .header {
       display: flex;
       justify-content: space-between;
@@ -73,9 +49,11 @@
     }
 
     .main-title {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       color: #60a5fa;
+      text-align: center;
+      line-height: 1.4;
     }
 
     .date-time {
@@ -107,14 +85,9 @@
       font-size: 20px;
     }
 
-    .user-info {
-      flex: 1;
-    }
-
     .user-name {
       font-size: 18px;
       font-weight: 600;
-      margin-bottom: 4px;
     }
 
     .verified-badge {
@@ -127,6 +100,7 @@
       border-radius: 20px;
       font-size: 13px;
       font-weight: 600;
+      margin-top: 8px;
     }
 
     .verified-badge::before {
@@ -142,7 +116,7 @@
       font-size: 14px;
       font-weight: 600;
       display: inline-block;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .qr-section {
@@ -150,16 +124,9 @@
       margin: 30px 0;
     }
 
-    .qr-title {
-      font-size: 18px;
-      margin-bottom: 20px;
-      color: #94a3b8;
-      font-weight: 500;
-    }
-
     #qrImage {
-      width: 300px;
-      height: 300px;
+      width: 290px;
+      height: 290px;
       background: white;
       padding: 16px;
       border-radius: 16px;
@@ -176,11 +143,6 @@
       cursor: pointer;
       margin-top: 20px;
       font-size: 16px;
-      transition: background 0.3s;
-    }
-
-    .download-btn:hover {
-      background: #4338ca;
     }
 
     .instruction {
@@ -245,10 +207,6 @@
       border: 1px solid #78350f;
     }
 
-    .disclaimer strong {
-      color: #fcd34d;
-    }
-
     .action-buttons {
       display: grid;
       gap: 14px;
@@ -263,11 +221,6 @@
       font-size: 17px;
       cursor: pointer;
       text-align: center;
-      transition: transform 0.2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
     }
 
     .done-btn {
@@ -285,22 +238,11 @@
       color: white;
     }
 
-    .admin-panel {
+    .admin-info {
       text-align: center;
-      margin: 30px 0;
-    }
-
-    .admin-btn {
-      background: #dc2626;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 16px;
-      width: 100%;
-      margin-top: 10px;
+      margin: 25px 0;
+      color: #94a3b8;
+      font-size: 14px;
     }
 
     .footer {
@@ -311,98 +253,40 @@
       border-top: 1px solid #334155;
       margin-top: 20px;
     }
-
-    .footer strong {
-      color: #60a5fa;
-    }
-
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-    }
-
-    .modal-content {
-      background: #0f172a;
-      margin: 10% auto;
-      padding: 25px;
-      width: 90%;
-      max-width: 400px;
-      border-radius: 16px;
-      border: 1px solid #334155;
-    }
-
-    .close {
-      color: #94a3b8;
-      float: right;
-      font-size: 28px;
-      cursor: pointer;
-    }
-
-    input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      margin: 15px 0;
-      border-radius: 10px;
-      border: 1px solid #334155;
-      background: #1e293b;
-      color: white;
-      font-size: 16px;
-    }
-
-    .history-item {
-      padding: 12px;
-      border-bottom: 1px solid #334155;
-      margin: 10px 0;
-    }
-
-    .unauthorized {
-      color: #ef4444;
-      text-align: center;
-      padding: 20px;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
 
   <!-- Header -->
   <div class="header">
-    <div class="main-title">PAYMENT REQUEST FROM SHEIN LOTTERY TICKET</div>
+    <div class="main-title" id="orderTitle">Loading...</div>
     <div class="date-time" id="dateTime"></div>
   </div>
 
   <!-- User Info -->
   <div class="user-section">
     <div class="avatar">P</div>
-    <div class="user-info">
+    <div>
       <div class="user-name">PRIYANKA GUPTA</div>
       <div class="verified-badge">Verified User</div>
       <div class="timer" id="countdown">⏳ 10:00</div>
     </div>
   </div>
 
-  <!-- QR Section -->
+  <!-- QR -->
   <div class="qr-section">
-    <div class="qr-title">PAYMENT QR</div>
     <img src="qr.jpg" id="qrImage" alt="Payment QR">
-    <button class="download-btn" onclick="downloadQR()">💾 Download QR Image</button>
+    <button class="download-btn" onclick="downloadQR()">💾 Download QR</button>
   </div>
 
   <!-- Instruction -->
   <div class="instruction">
-    You can scan the QR and pay the given amount to get your tickets. If above QR fails, try these:
+    Scan the QR to pay for your ticket. If QR fails, use UPI IDs below.
   </div>
 
   <!-- UPI IDs -->
   <div class="upi-section">
-    <div class="upi-title">UPI IDs</div>
+    <div class="upi-title">Backup UPI IDs</div>
     <div class="upi-item">
       <div class="upi-id">techydev1720@ybl</div>
       <button class="copy-btn" onclick="copyText('techydev1720@ybl')">Copy</button>
@@ -419,47 +303,43 @@
 
   <!-- Disclaimer -->
   <div class="disclaimer">
-    [DISCLAIMER] After doing payment, click on <strong>DONE PAYMENT</strong> and then click on <strong>"I Have Paid"</strong> box in Telegram to get your tickets.
+    [DISCLAIMER] After payment, click <strong>DONE PAYMENT</strong>, then go to bot and click <strong>"I Have Paid"</strong>.
   </div>
 
-  <!-- Action Buttons -->
+  <!-- Buttons -->
   <div class="action-buttons">
     <button class="btn done-btn" onclick="donePayment()">✅ DONE PAYMENT</button>
     <button class="btn support-btn" onclick="openSupport()">💬 SUPPORT</button>
     <button class="btn back-btn" onclick="goBackToBot()">🔙 BACK TO BOT</button>
   </div>
 
-  <!-- Admin Panel -->
-  <div class="admin-panel">
-    <button class="admin-btn" onclick="showAdminPanel()">🔐 ADMIN PANEL</button>
+  <!-- Admin Info -->
+  <div class="admin-info">
+    🔐 All payments are recorded and sent to admin automatically.
   </div>
 
   <!-- Footer -->
   <div class="footer">
     © 2026 Shein Lottery Ticket Gateway<br>
-    <strong>Secure • Trusted • Safe • Verified</strong>
+    Secure • Trusted • Verified
   </div>
 
   <!-- Expired Overlay -->
   <div class="blur-overlay" id="expiredOverlay">
-    <h2>⏰ PAYMENT EXPIRED</h2>
-    <p>If any payment is done and you have a query, click on support.</p>
-    <button class="support-btn-overlay" onclick="openSupport()">💬 CONTACT SUPPORT</button>
-  </div>
-
-  <!-- Admin Modal -->
-  <div id="adminModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeAdmin()">&times;</span>
-      <h3 style="color:#60a5fa; margin-bottom:15px;">Enter Secret Code</h3>
-      <input type="password" id="secretCode" placeholder="Secret Code">
-      <button class="btn support-btn" onclick="verifyAdmin()" style="width:100%;">Submit</button>
-      <div id="adminContent" style="margin-top:20px;"></div>
-    </div>
+    <h2 style="color:#ef4444; font-size:26px;">⏰ PAYMENT EXPIRED</h2>
+    <p>If paid, contact support immediately.</p>
+    <button class="btn support-btn" style="margin-top:15px;" onclick="openSupport()">💬 CONTACT SUPPORT</button>
   </div>
 
   <script>
-    // Date & Time (12-hour with seconds)
+    // ==================== GET ORDER ID FROM URL ====================
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('order') || 'UNKNOWN';
+
+    // Display in title
+    document.getElementById('orderTitle').textContent = `PAYMENT REQUEST FOR ${orderId}`;
+
+    // ==================== DATE & TIME ====================
     function updateDateTime() {
       const now = new Date();
       let h = now.getHours();
@@ -472,7 +352,7 @@
     setInterval(updateDateTime, 1000);
     updateDateTime();
 
-    // Timer
+    // ==================== TIMER ====================
     let timeLeft = 600;
     const countdownEl = document.getElementById('countdown');
     const expiredOverlay = document.getElementById('expiredOverlay');
@@ -489,7 +369,7 @@
       timeLeft--;
     }, 1000);
 
-    // Copy UPI
+    // ==================== UTILS ====================
     function copyText(text) {
       navigator.clipboard.writeText(text).then(() => {
         const btn = event.target;
@@ -499,30 +379,39 @@
       });
     }
 
-    // Download QR
     function downloadQR() {
       const a = document.createElement('a');
       a.href = 'qr.jpg';
-      a.download = 'Shein_Lottery_Payment_QR.jpg';
+      a.download = 'Shein_Payment_QR.jpg';
       a.click();
     }
 
-    // Done Payment → Save + Redirect
+    // ==================== DONE PAYMENT → NOTIFY ADMIN ====================
     function donePayment() {
-      const payment = {
-        amount: "manual_entry",
-        upi: "techydev1720@ybl",
-        timestamp: new Date().toISOString()
-      };
+      const timestamp = new Date().toLocaleString('en-IN', {
+        day: '2-digit', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+      });
 
-      let history = JSON.parse(localStorage.getItem('shein_admin_payments') || '[]');
-      history.push(payment);
-      localStorage.setItem('shein_admin_payments', JSON.stringify(history));
+      const message = `
+🆕 *New Payment Initiated*
+• Order ID: \`${orderId}\`
+• Status: \`Awaiting Confirmation\`
+• Time: \`${timestamp}\`
+• Next Step: User will click "I Have Paid" in main bot.
+      `.trim();
 
-      window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
+      const encodedMsg = encodeURIComponent(message);
+      
+      // Send to admin bot
+      window.open(`https://telegram.me/contact_admin17_bot?text=${encodedMsg}`, '_blank');
+      
+      // Open main bot after 1 sec
+      setTimeout(() => {
+        window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
+      }, 1000);
     }
 
-    // Telegram Links
     function openSupport() {
       window.open('https://t.me/contact_admin17_bot', '_blank');
     }
@@ -530,44 +419,6 @@
     function goBackToBot() {
       window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
     }
-
-    // Admin Panel
-    function showAdminPanel() {
-      document.getElementById('adminModal').style.display = 'block';
-    }
-
-    function closeAdmin() {
-      document.getElementById('adminModal').style.display = 'none';
-    }
-
-    function verifyAdmin() {
-      const code = document.getElementById('secretCode').value;
-      const content = document.getElementById('adminContent');
-
-      if (code === "DHEERAJ@1212") {
-        const hist = JSON.parse(localStorage.getItem('shein_admin_payments') || '[]');
-        if (hist.length === 0) {
-          content.innerHTML = '<p style="color:#94a3b8;">No payments recorded.</p>';
-        } else {
-          let html = '<h4 style="color:#60a5fa; margin-bottom:15px;">Payment History</h4>';
-          hist.forEach((item, i) => {
-            const date = new Date(item.timestamp).toLocaleString('en-IN', {
-              day: '2-digit', month: 'short', year: 'numeric',
-              hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
-            });
-            html += `<div class="history-item">✅ PAYMENT DONE [${date}]</div>`;
-          });
-          content.innerHTML = html;
-        }
-      } else {
-        content.innerHTML = '<div class="unauthorized">❌ INVALID SECRET CODE</div>';
-        setTimeout(() => content.innerHTML = '', 2000);
-      }
-    }
-
-    window.onclick = (e) => {
-      if (e.target === document.getElementById('adminModal')) closeAdmin();
-    };
   </script>
 
 </body>
