@@ -3,423 +3,570 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shein Lottery Payment</title>
+  <title>SheinVerse Updates | Giveaway</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
+    :root {
+      --primary: #0a0f25;
+      --dark: #05081a;
+      --accent: #1bd68b;
+      --light: #e0f7fa;
+      --gray: #a0a0c0;
+      --card-bg: rgba(10, 15, 37, 0.7);
+      --border: rgba(255,255,255,0.1);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: #f1f5f9;
-      padding: 20px;
-      max-width: 520px;
-      margin: 0 auto;
-      min-height: 100vh;
-    }
-
-    .blur-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(8px);
-      z-index: 999;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
+      background: linear-gradient(135deg, #0a0f25, #05081a);
       color: white;
-    }
-
-    .header {
+      min-height: 100vh;
+      padding: 20px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      margin-bottom: 25px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #334155;
+      justify-content: center;
+      overflow-x: hidden;
     }
 
-    .main-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #60a5fa;
+    .container {
+      max-width: 400px;
+      width: 100%;
       text-align: center;
-      line-height: 1.4;
     }
 
-    .date-time {
-      font-family: monospace;
-      font-size: 14px;
-      color: #94a3b8;
+    .logo-container {
+      margin-bottom: 25px;
     }
 
-    .user-section {
+    .logo {
+      width: 120px;
+      height: 120px;      background: #0d1b3a;
+      border-radius: 20px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 25px;
-      padding: 16px;
-      background: rgba(30, 41, 59, 0.6);
-      border-radius: 14px;
-      border: 1px solid #334155;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      overflow: hidden;
     }
 
-    .avatar {
-      width: 48px;
-      height: 48px;
-      background: #3b82f6;
+    .logo img {
+      width: 90%;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(to right, #1bd68b, #4fc3f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 0.5px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #e0f7fa;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .by-line {
+      font-size: 0.95rem;
+      color: #a0a0c0;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .stock-info {
+      font-size: 1.1rem;
+      color: #a0a0c0;
+      margin-bottom: 25px;
+      font-weight: 500;
+    }
+    .btn {
+      padding: 16px 24px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 15px rgba(27, 214, 139, 0.3);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0f25;
+    }
+
+    .btn-primary:hover {
+      background: #16c27a;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(27, 214, 139, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid var(--accent);
+      margin-top: 12px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(27, 214, 139, 0.1);
+    }
+
+    .code-display {
+      background: rgba(255,255,255,0.05);
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 1.3rem;
+      letter-spacing: 1.2px;
+      word-break: break-all;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .copy-btn {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      margin-top: 12px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .proof-box {
+      background: rgba(255,255,255,0.05);
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 30px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .proof-title {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: #1bd68b;
+    }
+
+    .proof-link {
+      display: inline-block;
+      background: var(--accent);
+      color: #0a0f25;
+      padding: 12px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 10px;
+      transition: all 0.3s;
+    }
+
+    .proof-link:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 12px rgba(27,214,139,0.4);
+    }
+
+    .admin-panel-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: none;      width: 50px;
+      height: 50px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
-      font-size: 20px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      z-index: 100;
     }
 
-    .user-name {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .verified-badge {
-      display: inline-flex;
+    /* Admin Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
       align-items: center;
-      gap: 6px;
-      background: rgba(16, 185, 129, 0.2);
-      color: #34d399;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-top: 8px;
+      justify-content: center;
     }
 
-    .verified-badge::before {
-      content: "✓";
-      font-size: 16px;
+    .modal-content {
+      background: var(--dark);
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      padding: 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      border: 1px solid var(--border);
     }
 
-    .timer {
-      background: rgba(239, 68, 68, 0.15);
-      color: #f87171;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 14px;
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      color: #1bd68b;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: #aaa;      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .input-group {
+      margin: 15px 0;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .admin-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .admin-btn {
+      padding: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
       font-weight: 600;
+    }
+
+    .admin-btn:hover {
+      background: rgba(27, 214, 139, 0.1);
+    }
+
+    .status-badge {
       display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;      font-size: 0.85rem;
       margin-top: 10px;
     }
 
-    .qr-section {
-      text-align: center;
-      margin: 30px 0;
-    }
+    .status-active { background: rgba(27,214,139,0.2); color: #1bd68b; }
+    .status-inactive { background: rgba(255,100,100,0.2); color: #ff6b6b; }
 
-    #qrImage {
-      width: 290px;
-      height: 290px;
-      background: white;
-      padding: 16px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }
-
-    .download-btn {
-      background: #4f46e5;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 20px;
-      font-size: 16px;
-    }
-
-    .instruction {
-      background: rgba(30, 41, 59, 0.7);
-      padding: 20px;
-      border-radius: 14px;
-      margin: 25px 0;
-      font-size: 15px;
-      line-height: 1.6;
-      color: #cbd5e1;
-      border: 1px solid #334155;
-    }
-
-    .upi-section {
-      margin: 25px 0;
-    }
-
-    .upi-title {
-      font-size: 17px;
-      margin-bottom: 15px;
-      color: #60a5fa;
-      font-weight: 600;
-    }
-
-    .upi-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(15, 23, 42, 0.8);
-      padding: 12px 16px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      border: 1px solid #334155;
-    }
-
-    .upi-id {
-      flex: 1;
-      font-family: monospace;
-      font-size: 15px;
-      color: #f1f5f9;
-    }
-
-    .copy-btn {
-      background: #3b82f6;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .disclaimer {
-      background: rgba(251, 146, 60, 0.15);
-      padding: 18px;
-      border-radius: 12px;
-      margin: 25px 0;
-      font-size: 15px;
-      line-height: 1.6;
-      color: #fde68a;
-      border: 1px solid #78350f;
-    }
-
-    .action-buttons {
-      display: grid;
-      gap: 14px;
-      margin: 25px 0;
-    }
-
-    .btn {
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 17px;
-      cursor: pointer;
-      text-align: center;
-    }
-
-    .done-btn {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-    }
-
-    .support-btn {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: white;
-    }
-
-    .back-btn {
-      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-      color: white;
-    }
-
-    .admin-info {
-      text-align: center;
-      margin: 25px 0;
-      color: #94a3b8;
-      font-size: 14px;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 20px 0;
-      color: #94a3b8;
-      font-size: 13px;
-      border-top: 1px solid #334155;
-      margin-top: 20px;
+    /* Responsive */
+    @media (max-width: 480px) {
+      h1 { font-size: 1.6rem; }
+      .logo { width: 100px; height: 100px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="main-title" id="orderTitle">Loading...</div>
-    <div class="date-time" id="dateTime"></div>
-  </div>
-
-  <!-- User Info -->
-  <div class="user-section">
-    <div class="avatar">P</div>
-    <div>
-      <div class="user-name">PRIYANKA GUPTA</div>
-      <div class="verified-badge">Verified User</div>
-      <div class="timer" id="countdown">⏳ 10:00</div>
+<div class="container">
+  <div class="logo-container">
+    <div class="logo">
+      <img src="shein.png" alt="Shein Logo" onerror="this.style.display='none';">
     </div>
   </div>
 
-  <!-- QR -->
-  <div class="qr-section">
-    <img src="qr.jpg" id="qrImage" alt="Payment QR">
-    <button class="download-btn" onclick="downloadQR()">💾 Download QR</button>
+  <h1>Rs.500 Shein Voucher 🎁</h1>
+  <div class="subtitle">Giveaway</div>
+  <div class="by-line">
+    <i class="fas fa-user"></i>
+    <span>By <strong>SheinVerse Updates</strong></span>
+    <i class="fas fa-star"></i>
+    <span>By Devraj</span>
   </div>
 
-  <!-- Instruction -->
-  <div class="instruction">
-    Scan the QR to pay for your ticket. If QR fails, use UPI IDs below.
+  <div class="stock-info" id="stockDisplay">Stock Left: <span id="stockCount">Loading...</span></div>
+
+  <button class="btn btn-primary" id="claimBtn">Claim Giveaway</button>
+
+  <div id="resultSection" style="display:none;">
+    <div class="code-display" id="codeBox">✅ Your Code Will Appear Here</div>
+    <button class="copy-btn" id="copyBtn"><i class="fas fa-copy"></i> Copy Code</button>
   </div>
 
-  <!-- UPI IDs -->
-  <div class="upi-section">
-    <div class="upi-title">Backup UPI IDs</div>
-    <div class="upi-item">
-      <div class="upi-id">techydev1720@ybl</div>
-      <button class="copy-btn" onclick="copyText('techydev1720@ybl')">Copy</button>
+  <div class="proof-box">
+    <div class="proof-title">📤 Send Proof Screenshot</div>
+    <p>Click below to open Telegram Bot</p>
+    <a href="https://t.me/shein_nano_bot" target="_blank" class="proof-link">
+      <i class="fab fa-telegram"></i> Send Proof Here
+    </a>
+  </div>
+</div>
+<!-- Admin Panel Button -->
+<button class="admin-panel-btn" id="adminBtn"><i class="fas fa-lock"></i></button>
+
+<!-- Admin Modal -->
+<div class="modal" id="adminModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">🔐 Admin Panel</div>
+      <button class="close-btn" id="closeModal">&times;</button>
     </div>
-    <div class="upi-item">
-      <div class="upi-id">techydev1720@axl</div>
-      <button class="copy-btn" onclick="copyText('techydev1720@axl')">Copy</button>
+
+    <div id="loginForm">
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="adminPass" placeholder="Enter password">
+      </div>
+      <button class="btn btn-primary" id="loginBtn">Login</button>
     </div>
-    <div class="upi-item">
-      <div class="upi-id">techydev1720@ibl</div>
-      <button class="copy-btn" onclick="copyText('techydev1720@ibl')">Copy</button>
+
+    <div id="adminActions" style="display:none;">
+      <div class="input-group">
+        <label>➕ Add Stock (comma-separated codes)</label>
+        <input type="text" id="addCodes" placeholder="e.g. SHEIN123, SHEIN456...">
+      </div>
+      <button class="admin-btn" id="addStockBtn">Add Stock</button>
+
+      <div class="admin-actions">
+        <button class="admin-btn" id="startBtn">▶️ Start / Update</button>
+        <button class="admin-btn" id="pauseBtn">⏹️ Pause</button>
+        <button class="admin-btn" id="stockLeftBtn">📦 Stock Left</button>
+        <button class="admin-btn" id="resetBtn">🔄 Reset All</button>
+      </div>
+
+      <div id="adminStatus" class="status-badge" style="margin-top:20px;"></div>
     </div>
   </div>
+</div>
 
-  <!-- Disclaimer -->
-  <div class="disclaimer">
-    [DISCLAIMER] After payment, click <strong>DONE PAYMENT</strong>, then go to bot and click <strong>"I Have Paid"</strong>.
-  </div>
+<script>
+  // === CONFIG ===
+  const PASSWORD = "Devraj@1720";
+  const MAX_CODES_PER_USER = 2;
 
-  <!-- Buttons -->
-  <div class="action-buttons">
-    <button class="btn done-btn" onclick="donePayment()">✅ DONE PAYMENT</button>
-    <button class="btn support-btn" onclick="openSupport()">💬 SUPPORT</button>
-    <button class="btn back-btn" onclick="goBackToBot()">🔙 BACK TO BOT</button>
-  </div>
+  // DOM Elements
+  const claimBtn = document.getElementById('claimBtn');
+  const resultSection = document.getElementById('resultSection');
+  const codeBox = document.getElementById('codeBox');
+  const copyBtn = document.getElementById('copyBtn');
+  const stockCountEl = document.getElementById('stockCount');
+  const stockDisplay = document.getElementById('stockDisplay');  const adminBtn = document.getElementById('adminBtn');
+  const adminModal = document.getElementById('adminModal');
+  const loginForm = document.getElementById('loginForm');
+  const adminActions = document.getElementById('adminActions');
+  const adminPass = document.getElementById('adminPass');
+  const loginBtn = document.getElementById('loginBtn');
+  const closeModal = document.getElementById('closeModal');
+  const addCodes = document.getElementById('addCodes');
+  const addStockBtn = document.getElementById('addStockBtn');
+  const startBtn = document.getElementById('startBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const stockLeftBtn = document.getElementById('stockLeftBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const adminStatus = document.getElementById('adminStatus');
 
-  <!-- Admin Info -->
-  <div class="admin-info">
-    🔐 All payments are recorded and sent to admin automatically.
-  </div>
+  // State
+  let stock = [];
+  let claimedCodes = {}; // userId => [code1, code2]
+  let isActive = true;
+  let userId = generateUserId();
 
-  <!-- Footer -->
-  <div class="footer">
-    © 2026 Shein Lottery Ticket Gateway<br>
-    Secure • Trusted • Verified
-  </div>
+  // Initialize
+  function init() {
+    loadFromStorage();
+    updateStockDisplay();
+    setupEventListeners();
+  }
 
-  <!-- Expired Overlay -->
-  <div class="blur-overlay" id="expiredOverlay">
-    <h2 style="color:#ef4444; font-size:26px;">⏰ PAYMENT EXPIRED</h2>
-    <p>If paid, contact support immediately.</p>
-    <button class="btn support-btn" style="margin-top:15px;" onclick="openSupport()">💬 CONTACT SUPPORT</button>
-  </div>
+  function generateUserId() {
+    return localStorage.getItem('userId') || Math.random().toString(36).substr(2, 9);
+  }
 
-  <script>
-    // ==================== GET ORDER ID FROM URL ====================
-    const urlParams = new URLSearchParams(window.location.search);
-    const orderId = urlParams.get('order') || 'UNKNOWN';
+  function saveToStorage() {
+    localStorage.setItem('sheinStock', JSON.stringify(stock));
+    localStorage.setItem('claimedCodes', JSON.stringify(claimedCodes));
+    localStorage.setItem('isActive', JSON.stringify(isActive));
+    localStorage.setItem('userId', userId);
+  }
 
-    // Display in title
-    document.getElementById('orderTitle').textContent = `PAYMENT REQUEST FOR ${orderId}`;
+  function loadFromStorage() {
+    const savedStock = localStorage.getItem('sheinStock');
+    const savedClaimed = localStorage.getItem('claimedCodes');
+    const savedActive = localStorage.getItem('isActive');
 
-    // ==================== DATE & TIME ====================
-    function updateDateTime() {
-      const now = new Date();
-      let h = now.getHours();
-      const m = String(now.getMinutes()).padStart(2, '0');
-      const s = String(now.getSeconds()).padStart(2, '0');
-      const ampm = h >= 12 ? 'PM' : 'AM';
-      h = h % 12 || 12;
-      document.getElementById('dateTime').textContent = `${h}:${m}:${s} ${ampm}`;
+    if (savedStock) stock = JSON.parse(savedStock);
+    if (savedClaimed) claimedCodes = JSON.parse(savedClaimed);
+    if (savedActive) isActive = JSON.parse(savedActive);
+    if (!localStorage.getItem('userId')) localStorage.setItem('userId', userId);
+  }
+  function updateStockDisplay() {
+    const left = stock.length;
+    stockCountEl.textContent = left;
+    stockDisplay.style.display = left > 0 || !isActive ? 'block' : 'none';
+  }
+
+  function setupEventListeners() {
+    claimBtn.addEventListener('click', handleClaim);
+    copyBtn.addEventListener('click', copyCode);
+    adminBtn.addEventListener('click', () => adminModal.style.display = 'flex');
+    closeModal.addEventListener('click', () => adminModal.style.display = 'none');
+    loginBtn.addEventListener('click', handleAdminLogin);
+    addStockBtn.addEventListener('click', addStock);
+    startBtn.addEventListener('click', startGiveaway);
+    pauseBtn.addEventListener('click', pauseGiveaway);
+    stockLeftBtn.addEventListener('click', showStockLeft);
+    resetBtn.addEventListener('click', resetAll);
+  }
+
+  async function handleClaim() {
+    if (!isActive) {
+      showResult("OVER NOW !!", false);
+      return;
     }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
 
-    // ==================== TIMER ====================
-    let timeLeft = 600;
-    const countdownEl = document.getElementById('countdown');
-    const expiredOverlay = document.getElementById('expiredOverlay');
-
-    const timer = setInterval(() => {
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        expiredOverlay.style.display = 'flex';
-        return;
-      }
-      const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-      const secs = (timeLeft % 60).toString().padStart(2, '0');
-      countdownEl.textContent = `⏳ ${mins}:${secs}`;
-      timeLeft--;
-    }, 1000);
-
-    // ==================== UTILS ====================
-    function copyText(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = event.target;
-        const orig = btn.textContent;
-        btn.textContent = "Copied!";
-        setTimeout(() => btn.textContent = orig, 2000);
-      });
+    if (stock.length === 0) {
+      showResult("Out of Stock", false);
+      return;
     }
 
-    function downloadQR() {
-      const a = document.createElement('a');
-      a.href = 'qr.jpg';
-      a.download = 'Shein_Payment_QR.jpg';
-      a.click();
+    const userCodes = claimedCodes[userId] || [];
+    if (userCodes.length >= MAX_CODES_PER_USER) {
+      showResult("You've already claimed 2 codes", false);
+      return;
     }
 
-    // ==================== DONE PAYMENT → NOTIFY ADMIN ====================
-    function donePayment() {
-      const timestamp = new Date().toLocaleString('en-IN', {
-        day: '2-digit', month: 'short', year: 'numeric',
-        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
-      });
+    // Pick first available code
+    const code = stock.shift();
+    userCodes.push(code);
+    claimedCodes[userId] = userCodes;
+    saveToStorage();
+    updateStockDisplay();
 
-      const message = `
-🆕 *New Payment Initiated*
-• Order ID: \`${orderId}\`
-• Status: \`Awaiting Confirmation\`
-• Time: \`${timestamp}\`
-• Next Step: User will click "I Have Paid" in main bot.
-      `.trim();
+    showResult(code, true);
+  }
 
-      const encodedMsg = encodeURIComponent(message);
-      
-      // Send to admin bot
-      window.open(`https://telegram.me/contact_admin17_bot?text=${encodedMsg}`, '_blank');
-      
-      // Open main bot after 1 sec
+  function showResult(text, isSuccess) {
+    codeBox.innerHTML = isSuccess 
+      ? `<span style="color:#1bd68b;">✅ ${text}</span>` 
+      : `<span style="color:#ff6b6b;">❌ ${text}</span>`;    resultSection.style.display = 'block';
+    copyBtn.disabled = !isSuccess;
+  }
+
+  function copyCode() {
+    const code = codeBox.innerText.replace('✅ ', '').replace('❌ ', '');
+    navigator.clipboard.writeText(code).then(() => {
+      copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
       setTimeout(() => {
-        window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
-      }, 1000);
-    }
+        copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Code';
+      }, 2000);
+    });
+  }
 
-    function openSupport() {
-      window.open('https://t.me/contact_admin17_bot', '_blank');
+  // Admin Functions
+  function handleAdminLogin() {
+    if (adminPass.value === PASSWORD) {
+      loginForm.style.display = 'none';
+      adminActions.style.display = 'block';
+      adminStatus.textContent = "✅ Access Granted";
+      adminStatus.className = "status-badge status-active";
+      setTimeout(() => adminStatus.textContent = "", 3000);
+    } else {
+      adminStatus.textContent = "❌ Invalid Password";
+      adminStatus.className = "status-badge status-inactive";
+      setTimeout(() => adminStatus.textContent = "", 2000);
     }
+  }
 
-    function goBackToBot() {
-      window.open('https://t.me/shein_lottery_ticket_bot', '_blank');
+  function addStock() {
+    const input = addCodes.value.trim();
+    if (!input) return alert("Please enter at least one code");
+
+    const newCodes = input.split(',').map(c => c.trim()).filter(c => c);
+    if (newCodes.length === 0) return alert("No valid codes found");
+
+    stock = [...stock, ...newCodes];
+    saveToStorage();
+    updateStockDisplay();
+    addCodes.value = '';
+    adminStatus.textContent = `✅ Added ${newCodes.length} codes`;
+    adminStatus.className = "status-badge status-active";
+    setTimeout(() => adminStatus.textContent = "", 3000);
+  }
+
+  function startGiveaway() {
+    isActive = true;
+    saveToStorage();
+    adminStatus.textContent = "▶️ Giveaway Started";
+    adminStatus.className = "status-badge status-active";  }
+
+  function pauseGiveaway() {
+    isActive = false;
+    saveToStorage();
+    adminStatus.textContent = "⏹️ Paused — Claims Disabled";
+    adminStatus.className = "status-badge status-inactive";
+  }
+
+  function showStockLeft() {
+    adminStatus.textContent = `📦 Stock Left: ${stock.length}`;
+    adminStatus.className = "status-badge status-active";
+    setTimeout(() => adminStatus.textContent = "", 3000);
+  }
+
+  function resetAll() {
+    if (confirm("⚠️ Are you sure? This will delete ALL stock & claims!")) {
+      stock = [];
+      claimedCodes = {};
+      isActive = true;
+      saveToStorage();
+      updateStockDisplay();
+      adminStatus.textContent = "🔄 Reset Complete";
+      adminStatus.className = "status-badge status-active";
     }
-  </script>
+  }
+
+  // On Load
+  window.addEventListener('DOMContentLoaded', init);
+</script>
 
 </body>
 </html>
